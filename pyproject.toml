@@ -1,0 +1,29 @@
+[project]
+name = "lesson-17"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Your Name",email = "you@example.com"}
+]
+
+[tool.pytest.ini_options]
+addopts = "-vv -s --showlocals --tb=long -rfEX --durations=10 --alluredir=allure-results"
+markers = [
+    "ui: Помечает тест как веб",
+    "regression: Помечает регрессионные тесты",
+    "smoke: Помечает smoke тесты"
+]
+
+readme = "README.md"
+
+requires-python = ">=3.12"
+
+dependencies = [
+    "requests (>=2.32.5,<3.0.0)",
+    "pytest (>=8.4.2,<9.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
