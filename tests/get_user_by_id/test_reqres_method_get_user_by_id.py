@@ -12,7 +12,9 @@ USER = {
 def test_mapping_data_user_in_response():
     response = requests.get(
         url=f"https://reqres.in/api/users/{USER['id']}",
-        headers={"x-api-key": "reqres-free-v1"}
+        headers={
+            "x-api-key": "reqres-free-v1"
+        }
     )
     assert response.status_code == 200
     response_json = response.json()
@@ -26,7 +28,9 @@ def test_mapping_data_user_in_response():
 def test_block_support_present_in_response():
     response = requests.get(
         url=f"https://reqres.in/api/users/{USER['id']}",
-        headers={"x-api-key": "reqres-free-v1"}
+        headers={
+            "x-api-key": "reqres-free-v1"
+        }
     )
     assert response.status_code == 200
     response_json = response.json()

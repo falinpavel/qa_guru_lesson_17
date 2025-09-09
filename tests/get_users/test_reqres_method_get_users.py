@@ -6,8 +6,13 @@ import requests
 def send_get_all_users() -> requests.Response:
     get_all_users = requests.get(
         url="https://reqres.in/api/users",
-        params={"page": 1, "per_page": 100},
-        headers={"x-api-key": "reqres-free-v1"}
+        params={
+            "page": 1,
+            "per_page": 100
+        },
+        headers={
+            "x-api-key": "reqres-free-v1"
+        }
     )
     yield get_all_users
 
