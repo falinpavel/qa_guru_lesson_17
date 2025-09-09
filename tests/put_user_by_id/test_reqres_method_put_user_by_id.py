@@ -1,7 +1,10 @@
-from datetime import datetime
-
 import pytest
 import requests
+import json
+
+from datetime import datetime
+from jsonschema import validate
+
 
 USER = {
     "id": 2,
@@ -27,6 +30,11 @@ def test_change_user_data_by_user_id():
         json=new_data
     )
     response_json = response.json()
+    with open("method_put_user_by_id_schema.json") as schema_file:
+        validate(
+            instance=response.json(),
+            schema=json.loads(schema_file.read())
+        )
     assert response.status_code == 200
     assert response_json["email"] == new_data["email"]
     assert response_json["first_name"] == new_data["first_name"]
@@ -47,7 +55,6 @@ def test_that_user_id_not_changed():
             "id": None
         }
     )
-    print(response.json())
     assert response.status_code == 400
 
 
@@ -58,9 +65,14 @@ def test_that_response_nas_parameter_updated_at():
             "x-api-key": "reqres-free-v1"
         },
         json={
-            "id": None
+            "email": "janet_test.weaver@reqres.in"
         }
     )
     response_json = response.json()
+    with open("method_put_user_by_id_schema.json") as schema_file:
+        validate(
+            instance=response.json(),
+            schema=json.loads(schema_file.read())
+        )
     assert response_json["updatedAt"]
     assert response_json["updatedAt"].startswith(datetime.now().strftime("%Y-%m-%d"))

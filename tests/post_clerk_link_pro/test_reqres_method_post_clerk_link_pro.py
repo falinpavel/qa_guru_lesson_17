@@ -1,7 +1,9 @@
-from datetime import datetime
-
 import pytest
 import requests
+import json
+
+from datetime import datetime
+from jsonschema import validate
 
 EMAIL = "falin.p@test.ru"
 
@@ -24,6 +26,11 @@ def test_send_email_and_get_your_id(send_post_request):
     response = send_post_request
     assert response.status_code == 201
     response_json = response.json()
+    with open("method_post_clerk_link_pro_schema.json") as schema_file:
+        validate(
+            instance=response.json(),
+            schema=json.loads(schema_file.read())
+        )
     assert response_json["id"]
 
 
@@ -31,6 +38,11 @@ def test_send_email_and_check_that_parameter_created_at_is_present(send_post_req
     response = send_post_request
     assert response.status_code == 201
     response_json = response.json()
+    with open("method_post_clerk_link_pro_schema.json") as schema_file:
+        validate(
+            instance=response.json(),
+            schema=json.loads(schema_file.read())
+        )
     assert response_json["createdAt"]
     assert response_json["createdAt"].startswith(datetime.now().strftime("%Y-%m-%d"))
 
@@ -39,4 +51,9 @@ def test_send_email_and_check_that_sent_email_is_correct(send_post_request):
     response = send_post_request
     assert response.status_code == 201
     response_json = response.json()
+    with open("method_post_clerk_link_pro_schema.json") as schema_file:
+        validate(
+            instance=response.json(),
+            schema=json.loads(schema_file.read())
+        )
     assert response_json["email"] == EMAIL

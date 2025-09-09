@@ -1,4 +1,8 @@
+import json
 import requests
+import pytest
+
+from jsonschema import validate
 
 USER = {
     "id": 2,
@@ -9,15 +13,26 @@ USER = {
 }
 
 
-def test_mapping_data_user_in_response():
+@pytest.fixture(scope="function")
+def send_get_user_by_id():
     response = requests.get(
         url=f"https://reqres.in/api/users/{USER['id']}",
         headers={
             "x-api-key": "reqres-free-v1"
         }
     )
+    yield response
+
+
+def test_mapping_data_user_in_response(send_get_user_by_id):
+    response = send_get_user_by_id
     assert response.status_code == 200
     response_json = response.json()
+    with open("method_get_user_by_id_schema.json") as schema_file:
+        validate(
+            instance=response.json(),
+            schema=json.loads(schema_file.read())
+        )
     assert response_json["data"]["id"] == USER["id"]
     assert response_json["data"]["email"] == USER["email"]
     assert response_json["data"]["first_name"] == USER["first_name"]
@@ -25,15 +40,15 @@ def test_mapping_data_user_in_response():
     assert response_json["data"]["avatar"] == USER["avatar"]
 
 
-def test_block_support_present_in_response():
-    response = requests.get(
-        url=f"https://reqres.in/api/users/{USER['id']}",
-        headers={
-            "x-api-key": "reqres-free-v1"
-        }
-    )
+def test_block_support_present_in_response(send_get_user_by_id):
+    response = send_get_user_by_id
     assert response.status_code == 200
     response_json = response.json()
+    with open("method_get_user_by_id_schema.json") as schema_file:
+        validate(
+            instance=response.json(),
+            schema=json.loads(schema_file.read())
+        )
     assert response_json["support"]
     assert response_json["support"]["url"]
     assert response_json["support"]["text"]
