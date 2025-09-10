@@ -5,6 +5,7 @@ import json
 from datetime import datetime
 from jsonschema import validate
 
+from const import Const
 
 USER = {
     "id": 2,
@@ -30,7 +31,7 @@ def test_change_user_data_by_user_id():
         json=new_data
     )
     response_json = response.json()
-    with open("method_put_user_by_id_schema.json") as schema_file:
+    with open(f"{Const.SCHEMAS_DIR}/method_put_user_by_id_schema.json") as schema_file:
         validate(
             instance=response.json(),
             schema=json.loads(schema_file.read())
@@ -69,7 +70,7 @@ def test_that_response_nas_parameter_updated_at():
         }
     )
     response_json = response.json()
-    with open("method_put_user_by_id_schema.json") as schema_file:
+    with open(f"{Const.SCHEMAS_DIR}/method_put_user_by_id_schema.json") as schema_file:
         validate(
             instance=response.json(),
             schema=json.loads(schema_file.read())

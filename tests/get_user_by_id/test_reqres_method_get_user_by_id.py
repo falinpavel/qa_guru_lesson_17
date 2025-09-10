@@ -4,6 +4,8 @@ import pytest
 
 from jsonschema import validate
 
+from const import Const
+
 USER = {
     "id": 2,
     "email": "janet.weaver@reqres.in",
@@ -28,7 +30,7 @@ def test_mapping_data_user_in_response(send_get_user_by_id):
     response = send_get_user_by_id
     assert response.status_code == 200
     response_json = response.json()
-    with open("method_get_user_by_id_schema.json") as schema_file:
+    with open(f"{Const.SCHEMAS_DIR}/method_get_user_by_id_schema.json") as schema_file:
         validate(
             instance=response.json(),
             schema=json.loads(schema_file.read())
@@ -44,7 +46,7 @@ def test_block_support_present_in_response(send_get_user_by_id):
     response = send_get_user_by_id
     assert response.status_code == 200
     response_json = response.json()
-    with open("method_get_user_by_id_schema.json") as schema_file:
+    with open(f"{Const.SCHEMAS_DIR}/method_get_user_by_id_schema.json") as schema_file:
         validate(
             instance=response.json(),
             schema=json.loads(schema_file.read())
