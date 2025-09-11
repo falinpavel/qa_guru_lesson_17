@@ -1,13 +1,16 @@
+import os
+
 import pytest
 import requests
 import json
 
 from datetime import datetime
 from jsonschema import validate
+from utils.path_helpers import get_schema_path
 
-from const import Const
 
 EMAIL = "falin.p@test.ru"
+SCHEMA_PATH = get_schema_path("method_post_clerk_link_pro_schema.json")
 
 
 @pytest.fixture(scope="function")
@@ -28,7 +31,7 @@ def test_send_email_and_get_your_id(send_post_request):
     response = send_post_request
     assert response.status_code == 201
     response_json = response.json()
-    with open(f"{Const.SCHEMAS_DIR}/method_post_clerk_link_pro_schema.json") as schema_file:
+    with open(SCHEMA_PATH) as schema_file:
         validate(
             instance=response.json(),
             schema=json.loads(schema_file.read())
@@ -40,7 +43,7 @@ def test_send_email_and_check_that_parameter_created_at_is_present(send_post_req
     response = send_post_request
     assert response.status_code == 201
     response_json = response.json()
-    with open(f"{Const.SCHEMAS_DIR}/method_post_clerk_link_pro_schema.json") as schema_file:
+    with open(SCHEMA_PATH) as schema_file:
         validate(
             instance=response.json(),
             schema=json.loads(schema_file.read())
@@ -53,7 +56,7 @@ def test_send_email_and_check_that_sent_email_is_correct(send_post_request):
     response = send_post_request
     assert response.status_code == 201
     response_json = response.json()
-    with open(f"{Const.SCHEMAS_DIR}/method_post_clerk_link_pro_schema.json") as schema_file:
+    with open(SCHEMA_PATH) as schema_file:
         validate(
             instance=response.json(),
             schema=json.loads(schema_file.read())

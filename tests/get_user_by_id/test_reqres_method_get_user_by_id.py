@@ -1,10 +1,12 @@
 import json
+import os
+
 import requests
 import pytest
 
 from jsonschema import validate
+from utils.path_helpers import get_schema_path
 
-from const import Const
 
 USER = {
     "id": 2,
@@ -13,6 +15,7 @@ USER = {
     "last_name": "Weaver",
     "avatar": "https://reqres.in/img/faces/2-image.jpg"
 }
+SCHEMA_PATH = get_schema_path("method_get_user_by_id_schema.json")
 
 
 @pytest.fixture(scope="function")
@@ -30,7 +33,7 @@ def test_mapping_data_user_in_response(send_get_user_by_id):
     response = send_get_user_by_id
     assert response.status_code == 200
     response_json = response.json()
-    with open(f"{Const.SCHEMAS_DIR}/method_get_user_by_id_schema.json") as schema_file:
+    with open(SCHEMA_PATH) as schema_file:
         validate(
             instance=response.json(),
             schema=json.loads(schema_file.read())
@@ -46,7 +49,7 @@ def test_block_support_present_in_response(send_get_user_by_id):
     response = send_get_user_by_id
     assert response.status_code == 200
     response_json = response.json()
-    with open(f"{Const.SCHEMAS_DIR}/method_get_user_by_id_schema.json") as schema_file:
+    with open(SCHEMA_PATH) as schema_file:
         validate(
             instance=response.json(),
             schema=json.loads(schema_file.read())

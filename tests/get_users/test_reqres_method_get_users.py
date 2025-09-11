@@ -1,10 +1,14 @@
 import json
+import os
+
 import pytest
 import requests
 
 from jsonschema import validate
+from utils.path_helpers import get_schema_path
 
-from const import Const
+
+SCHEMA_PATH = get_schema_path("method_get_users_schema.json")
 
 
 @pytest.fixture(scope="function")
@@ -26,7 +30,7 @@ def test_get_all_users_and_check_pagination(send_get_all_users: requests.Respons
     response = send_get_all_users
     assert send_get_all_users.status_code == 200
     response_json = response.json()
-    with open(f"{Const.SCHEMAS_DIR}/method_get_users_schema.json") as schema_file:
+    with open(SCHEMA_PATH) as schema_file:
         validate(
             instance=response.json(),
             schema=json.loads(schema_file.read())
@@ -39,7 +43,7 @@ def test_check_len_users_in_response_data(send_get_all_users: requests.Response)
     response = send_get_all_users
     assert send_get_all_users.status_code == 200
     response_json = response.json()
-    with open(f"{Const.SCHEMAS_DIR}/method_get_users_schema.json") as schema_file:
+    with open(SCHEMA_PATH) as schema_file:
         validate(
             instance=response.json(),
             schema=json.loads(schema_file.read())
@@ -51,7 +55,7 @@ def test_that_all_users_have_valid_emails_domain(send_get_all_users: requests.Re
     response = send_get_all_users
     assert send_get_all_users.status_code == 200
     response_json = response.json()
-    with open(f"{Const.SCHEMAS_DIR}/method_get_users_schema.json") as schema_file:
+    with open(SCHEMA_PATH) as schema_file:
         validate(
             instance=response.json(),
             schema=json.loads(schema_file.read())
@@ -64,7 +68,7 @@ def test_that_all_users_have_parameter_avatar(send_get_all_users: requests.Respo
     response = send_get_all_users
     assert send_get_all_users.status_code == 200
     response_json = response.json()
-    with open(f"{Const.SCHEMAS_DIR}/method_get_users_schema.json") as schema_file:
+    with open(SCHEMA_PATH) as schema_file:
         validate(
             instance=response.json(),
             schema=json.loads(schema_file.read())
