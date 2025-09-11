@@ -34,7 +34,7 @@ def test_change_user_data_by_user_id():
         json=new_data
     )
     response_json = response.json()
-    with open(SCHEMA_PATH) as schema_file:
+    with open(file=SCHEMA_PATH) as schema_file:
         validate(
             instance=response.json(),
             schema=json.loads(schema_file.read())
@@ -73,7 +73,7 @@ def test_that_response_nas_parameter_updated_at():
         }
     )
     response_json = response.json()
-    with open(SCHEMA_PATH) as schema_file:
+    with open(file=SCHEMA_PATH) as schema_file:
         validate(
             instance=response.json(),
             schema=json.loads(schema_file.read())

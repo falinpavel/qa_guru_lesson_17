@@ -1,5 +1,4 @@
 import json
-import os
 
 import requests
 import pytest
@@ -33,7 +32,7 @@ def test_mapping_data_user_in_response(send_get_user_by_id):
     response = send_get_user_by_id
     assert response.status_code == 200
     response_json = response.json()
-    with open(SCHEMA_PATH) as schema_file:
+    with open(file=SCHEMA_PATH) as schema_file:
         validate(
             instance=response.json(),
             schema=json.loads(schema_file.read())
@@ -49,7 +48,7 @@ def test_block_support_present_in_response(send_get_user_by_id):
     response = send_get_user_by_id
     assert response.status_code == 200
     response_json = response.json()
-    with open(SCHEMA_PATH) as schema_file:
+    with open(file=SCHEMA_PATH) as schema_file:
         validate(
             instance=response.json(),
             schema=json.loads(schema_file.read())
